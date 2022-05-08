@@ -1,7 +1,7 @@
 <template>
   <div id="app" class="container">
     <AppHeader title="Task Tracker" />
-    <TasksList :tasks="tasks" />
+    <TasksList @delete-task="deleteTask" :tasks="tasks" />
   </div>
 </template>
 
@@ -19,6 +19,11 @@ export default {
   data: () => ({
     tasks: []
   }),
+  methods: {
+    deleteTask(id) {
+      return (this.tasks = this.tasks.filter((task) => task.id !== id))
+    }
+  },
   created() {
     this.tasks = [
       {
