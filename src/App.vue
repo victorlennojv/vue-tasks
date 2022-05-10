@@ -1,7 +1,7 @@
 <template>
   <div id="app" class="container">
     <AppHeader title="Task Tracker" />
-    <TasksList @delete-task="deleteTask" :tasks="tasks" />
+    <TasksList @toggle-reminder="toggleReminder" @delete-task="deleteTask" :tasks="tasks" />
   </div>
 </template>
 
@@ -21,7 +21,10 @@ export default {
   }),
   methods: {
     deleteTask(id) {
-      return (this.tasks = this.tasks.filter((task) => task.id !== id))
+      if (confirm('Are you sure?')) this.tasks = this.tasks.filter((task) => task.id !== id)
+    },
+    toggleReminder(id) {
+      console.log('Toglando')
     }
   },
   created() {
