@@ -17,6 +17,18 @@
       "text": "Food shopping",
       "day": "March 7th at 2:00pm",
       "reminder": false
+    },
+    {
+      "text": "Buchana",
+      "day": "12 May 3pm",
+      "reminder": true,
+      "id": "WC8eqRG"
+    },
+    {
+      "text": "Teste",
+      "day": "asdasdasd 2",
+      "reminder": false,
+      "id": "LZ11W0r"
     }
   ]
 }

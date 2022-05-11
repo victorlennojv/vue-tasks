@@ -22,7 +22,7 @@ import AppHeader from "./components/AppHeader";
 import AppLoader from "./components/ui/AppLoader";
 import TasksList from "./components/TasksList";
 import TaskAdd from "./components/TaskAdd";
-import { getTasks } from "./services/tasks";
+import { createTask, getTaskById, getTasks } from "./services/tasks";
 
 export default {
   name: "App",
@@ -43,6 +43,21 @@ export default {
   },
 
   methods: {
+    /*
+      Alternative method using fetch
+
+      async fetchTasks() {
+        const res = await fetch('http://localhost:5000/tasks')
+        
+        const data = await res.json()
+
+        return data
+      }
+      
+      async created() {
+        this.tasks = await fetchTasks()
+      }
+    */
     async fetchTasks() {
       this.loading = true;
       try {
@@ -57,8 +72,27 @@ export default {
         console.log(error);
       }
     },
-    addTask(task) {
-      this.tasks = [...this.tasks, task];
+
+    async fetchTaskById(id) {
+      this.loading = true;
+      try {
+        const data = await getTaskById(id);
+        this.loading = false;
+        return data;
+      } catch (error) {
+        this.loading = false;
+        console.log(error);
+      }
+    },
+
+    async addTask(task) {
+      try {
+        await createTask(task);
+        this.fetchTasks();
+      } catch (error) {
+        console.log(error);
+        // this.tasks = [...this.tasks, task];
+      }
     },
     deleteTask(id) {
       if (confirm("Are you sure?"))
