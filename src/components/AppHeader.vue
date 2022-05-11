@@ -2,9 +2,9 @@
   <header>
     <h1>{{ title }}</h1>
     <AppButton
-      @show-add="$emit('show-add')"
+      @btn-click="$emit('show-add')"
       :text="showAddTask ? 'Close' : 'Add Task'"
-      color="green"
+      :color="showAddTask ? 'red' : 'green'"
     />
   </header>
 </template>

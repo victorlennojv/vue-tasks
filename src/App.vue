@@ -1,77 +1,90 @@
 <template>
   <div id="app" class="container">
-    <AppHeader @show-add="toggleAddTask" :showAddTask="showAddTask" title="Task Tracker" />
+    <AppLoader :loading="loading" />
+    <AppHeader
+      @show-add="toggleAddTask"
+      :showAddTask="showAddTask"
+      title="Task Tracker"
+    />
     <div v-if="showAddTask">
       <TaskAdd @add-task="addTask" />
     </div>
-    <TasksList @toggle-reminder="toggleReminder" @delete-task="deleteTask" :tasks="tasks" />
+    <TasksList
+      @toggle-reminder="toggleReminder"
+      @delete-task="deleteTask"
+      :tasks="tasks"
+    />
   </div>
 </template>
 
 <script>
-import AppHeader from './components/AppHeader'
-import TasksList from './components/TasksList'
-import TaskAdd from './components/TaskAdd'
+import AppHeader from "./components/AppHeader";
+import AppLoader from "./components/ui/AppLoader";
+import TasksList from "./components/TasksList";
+import TaskAdd from "./components/TaskAdd";
+import { getTasks } from "./services/tasks";
 
 export default {
-  name: 'App',
+  name: "App",
   components: {
     AppHeader,
     TasksList,
-    TaskAdd
+    TaskAdd,
+    AppLoader,
   },
   data: () => ({
     tasks: [],
-    showAddTask: false
+    showAddTask: false,
+    loading: false,
   }),
+
+  created() {
+    this.fetchTasks();
+  },
+
   methods: {
+    async fetchTasks() {
+      this.loading = true;
+      try {
+        const data = await getTasks();
+        setTimeout(() => {
+          // SET TIMEOUT ONLY TO SEE THE LOADING
+          this.tasks = data;
+          this.loading = false;
+        }, 800);
+      } catch (error) {
+        this.loading = false;
+        console.log(error);
+      }
+    },
     addTask(task) {
-      this.tasks = [...this.tasks, task]
+      this.tasks = [...this.tasks, task];
     },
     deleteTask(id) {
-      if (confirm('Are you sure?')) this.tasks = this.tasks.filter((task) => task.id !== id)
+      if (confirm("Are you sure?"))
+        this.tasks = this.tasks.filter((task) => task.id !== id);
     },
     toggleReminder(id) {
-      this.tasks = this.tasks.map((task) => (task.id === id ? { ...task, reminder: !task.reminder } : task))
+      this.tasks = this.tasks.map((task) =>
+        task.id === id ? { ...task, reminder: !task.reminder } : task
+      );
     },
     toggleAddTask() {
-      this.showAddTask = !this.showAddTask
-    }
+      this.showAddTask = !this.showAddTask;
+    },
   },
-  created() {
-    this.tasks = [
-      {
-        id: 1,
-        text: 'Doctors Appointment',
-        day: 'March 1st at 2:30pm',
-        reminder: true
-      },
-      {
-        id: 2,
-        text: 'Meeting at School',
-        day: 'March 3rd at 1:30pm',
-        reminder: true
-      },
-      {
-        id: 3,
-        text: 'Food Shopping',
-        day: 'March 3rd at 11:00am',
-        reminder: false
-      }
-    ]
-  }
-}
+};
 </script>
 
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400&display=swap");
 * {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
 }
 body {
-  font-family: 'Poppins', sans-serif;
+  font-family: "Poppins", sans-serif;
 }
 .container {
   max-width: 500px;
