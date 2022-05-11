@@ -1,7 +1,7 @@
 <template>
   <header>
     <h1>{{ title }}</h1>
-    <AppButton text="Add Task" color="#00e000" />
+    <AppButton @show-add="$emit('show-add')" text="Add Task" color="green" />
   </header>
 </template>
 
