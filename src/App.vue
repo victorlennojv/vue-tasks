@@ -1,6 +1,6 @@
 <template>
   <div id="app" class="container">
-    <AppHeader @show-add="toggleAddTask" title="Task Tracker" />
+    <AppHeader @show-add="toggleAddTask" :showAddTask="showAddTask" title="Task Tracker" />
     <div v-if="showAddTask">
       <TaskAdd @add-task="addTask" />
     </div>

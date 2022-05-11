@@ -1,27 +1,32 @@
 <template>
   <header>
     <h1>{{ title }}</h1>
-    <AppButton @show-add="$emit('show-add')" text="Add Task" color="green" />
+    <AppButton
+      @show-add="$emit('show-add')"
+      :text="showAddTask ? 'Close' : 'Add Task'"
+      color="green"
+    />
   </header>
 </template>
 
 <script>
-import AppButton from './AppButton.vue'
+import AppButton from "./AppButton.vue";
 
 export default {
-  name: 'AppHeader',
+  name: "AppHeader",
   components: {
-    AppButton
+    AppButton,
   },
 
   props: {
     title: {
       type: String,
       required: true,
-      default: 'Hello World'
-    }
-  }
-}
+      default: "Hello World",
+    },
+    showAddTask: Boolean,
+  },
+};
 </script>
 
 <style scoped>
