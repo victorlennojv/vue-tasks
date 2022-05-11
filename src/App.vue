@@ -1,6 +1,9 @@
 <template>
   <div id="app" class="container">
-    <AppHeader title="Task Tracker" />
+    <AppHeader @show-add="toggleAddTask" title="Task Tracker" />
+    <div v-if="showAddTask">
+      <TaskAdd @add-task="addTask" />
+    </div>
     <TasksList @toggle-reminder="toggleReminder" @delete-task="deleteTask" :tasks="tasks" />
   </div>
 </template>
@@ -8,23 +11,31 @@
 <script>
 import AppHeader from './components/AppHeader'
 import TasksList from './components/TasksList'
+import TaskAdd from './components/TaskAdd'
 
 export default {
   name: 'App',
   components: {
     AppHeader,
-    TasksList
+    TasksList,
+    TaskAdd
   },
-
   data: () => ({
-    tasks: []
+    tasks: [],
+    showAddTask: false
   }),
   methods: {
+    addTask(task) {
+      this.tasks = [...this.tasks, task]
+    },
     deleteTask(id) {
       if (confirm('Are you sure?')) this.tasks = this.tasks.filter((task) => task.id !== id)
     },
     toggleReminder(id) {
-      console.log('Toglando')
+      this.tasks = this.tasks.map((task) => (task.id === id ? { ...task, reminder: !task.reminder } : task))
+    },
+    toggleAddTask() {
+      this.showAddTask = !this.showAddTask
     }
   },
   created() {
