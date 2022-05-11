@@ -6,25 +6,25 @@
 
 <script>
 export default {
-  name: 'AppButton',
+  name: "AppButton",
 
   props: {
     text: {
       type: String,
-      default: 'Button'
+      default: "Button",
     },
     color: {
       type: String,
-      default: 'black'
-    }
+      default: "black",
+    },
   },
 
   methods: {
     onClick() {
-      this.$emit('show-add')
-    }
-  }
-}
+      this.$emit("btn-click");
+    },
+  },
+};
 </script>
 
 <style></style>
