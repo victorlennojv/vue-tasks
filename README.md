@@ -1,5 +1,7 @@
 # vue-tasks
 
+A simple task tool.
+
 ## Project setup
 ```
 yarn install
